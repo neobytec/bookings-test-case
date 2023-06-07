@@ -14,8 +14,8 @@ use App\Domain\Insurances\Ports\CreateInsuranceInterface;
 class ProcessActionUseCase
 {
     public function __construct(
-        private readonly GetBookingInterface      $getBooking,
-        private readonly ProcessActionInterface   $processAction,
+        private readonly GetBookingInterface $getBooking,
+        private readonly ProcessActionInterface $processAction,
         private readonly CreateInsuranceInterface $createInsurance
     ) {
     }

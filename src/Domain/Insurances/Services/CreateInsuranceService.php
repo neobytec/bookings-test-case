@@ -12,7 +12,7 @@ use App\Domain\Insurances\Ports\InsurancesRepositoryInterface;
 class CreateInsuranceService implements CreateInsuranceInterface
 {
     private const PRICE_PER_PERSON = 0.12;
-    private const PRICE_PER_DAY = 0.08;
+    private const PRICE_PER_DAY    = 0.08;
 
     public function __construct(
         private readonly InsurancesRepositoryInterface $insurancesRepository
@@ -21,7 +21,7 @@ class CreateInsuranceService implements CreateInsuranceInterface
 
     public function __invoke(BookingDTOInterface $booking): bool
     {
-        $days = $booking->getCheckOut()->diff($booking->getCheckIn())->days;
+        $days          = $booking->getCheckOut()->diff($booking->getCheckIn())->days;
         $premiumAmount = ($days * self::PRICE_PER_DAY) + ($booking->getPeople() * self::PRICE_PER_PERSON);
 
         $insurance = new Insurance($premiumAmount);

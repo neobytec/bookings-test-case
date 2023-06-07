@@ -6,27 +6,62 @@ namespace App\Infrastructure\Data\Entity;
 
 use App\Infrastructure\Data\Entity\Bookings;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Insurances
+ *
+ * @ORM\Table(
+ *     name="insurances",
+ *     uniqueConstraints={@ORM\UniqueConstraint(name="policy_UNIQUE", columns={"policy"})},
+ *     indexes={@ORM\Index(name="fk_insurances_1_idx", columns={"booking_id"})}
+ * )
+ * @ORM\Entity
  */
 class Insurances
 {
+    /**
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     private ?int $id = null;
 
-    /** @var string */
+    /**
+     * @ORM\Column(name="policy", type="string", length=9, nullable=false, options={"fixed"=true})
+     *
+     * @var string
+     */
     private $policy;
 
-    /** @var DateTime */
+    /**
+     * @ORM\Column(name="premium_amount", type="float", length=4, nullable=false, options={"fixed"=true})
+     *
+     * @var float
+     */
+    private $premiumAmount;
+
+    /**
+     * @ORM\Column(name="created_at", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
+     *
+     * @var DateTime
+     */
     private $createdAt;
 
-    /** @var Bookings|null */
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Infrastructure\Data\Entity\Bookings")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="booking_id", referencedColumnName="id")
+     * })
+     *
+     * @var Bookings|null
+     */
     private $booking;
 
     /**
      * Get id.
      */
-    public function getId(): int|null
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -97,5 +132,15 @@ class Insurances
     public function getBooking()
     {
         return $this->booking;
+    }
+
+    public function getPremiumAmount(): float
+    {
+        return $this->premiumAmount;
+    }
+
+    public function setPremiumAmount(float $premiumAmount): void
+    {
+        $this->premiumAmount = $premiumAmount;
     }
 }

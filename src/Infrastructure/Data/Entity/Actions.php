@@ -6,38 +6,74 @@ namespace App\Infrastructure\Data\Entity;
 
 use App\Infrastructure\Data\Entity\Bookings;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Actions
+ *
+ * @ORM\Table(name="actions", indexes={@ORM\Index(name="fk_actions_1_idx", columns={"booking_id"})})
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Data\Repository\ActionsRepository")
  */
 class Actions
 {
+    /**
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true}, unique=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     private ?int $id = null;
 
-    /** @var bool */
+    /**
+     * @ORM\Column(name="action", type="int", nullable=false, unique=false)
+     *
+     * @var int
+     */
     private $action;
 
-    /** @var DateTime */
+    /**
+     * @ORM\Column(name="check_in", type="date", nullable=false, unique=false)
+     *
+     * @var DateTime
+     */
     private $checkIn;
 
-    /** @var DateTime */
+    /**
+     * @ORM\Column(name="check_out", type="date", nullable=false, unique=false)
+     *
+     * @var DateTime
+     */
     private $checkOut;
 
-    /** @var bool */
+    /**
+     * @ORM\Column(name="people", type="int", nullable=false, unique=false)
+     *
+     * @var int
+     */
     private $people;
 
-    /** @var DateTime */
+    /**
+     * @ORM\Column(
+     *     name="created_at", type="datetime", nullable=false, options={"default"="CURRENT_TIMESTAMP"}, unique=false
+     * )
+     *
+     * @var DateTime
+     */
     private $createdAt;
 
-    /** @var Bookings|null */
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Infrastructure\Data\Entity\Bookings")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="booking_id", referencedColumnName="id", nullable=true)
+     * })
+     *
+     * @var Bookings|null
+     */
     private $booking;
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId(): int|null
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -45,7 +81,7 @@ class Actions
     /**
      * Set action.
      *
-     * @param bool $action
+     * @param int $action
      * @return Actions
      */
     public function setAction($action)
@@ -58,7 +94,7 @@ class Actions
     /**
      * Get action.
      *
-     * @return bool
+     * @return int
      */
     public function getAction()
     {
@@ -114,7 +150,7 @@ class Actions
     /**
      * Set people.
      *
-     * @param bool $people
+     * @param int $people
      * @return Actions
      */
     public function setPeople($people)
@@ -127,7 +163,7 @@ class Actions
     /**
      * Get people.
      *
-     * @return bool
+     * @return int
      */
     public function getPeople()
     {

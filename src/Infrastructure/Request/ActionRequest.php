@@ -16,8 +16,8 @@ class ActionRequest implements ActionDTOInterface
         private readonly DateTime $checkIn,
         private readonly DateTime $checkOut,
         private readonly int $people,
-    ) {}
-
+    ) {
+    }
 
     public function getReference(): string
     {

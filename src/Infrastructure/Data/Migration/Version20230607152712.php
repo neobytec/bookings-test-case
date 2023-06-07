@@ -38,6 +38,7 @@ final class Version20230607152712 extends AbstractMigration
               `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
               `booking_id` INT UNSIGNED NOT NULL,
               `policy` CHAR(9) NOT NULL,
+              `premium_amount` DECIMAL(4,2) NOT NULL 0,
               `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`),
               UNIQUE INDEX `policy_UNIQUE` (`policy` ASC) VISIBLE,

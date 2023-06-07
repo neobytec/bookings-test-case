@@ -19,9 +19,8 @@ use App\Domain\Insurances\Ports\InsurancesRepositoryInterface;
 use App\Domain\Insurances\Services\CreateInsuranceService;
 use App\Infrastructure\Request\ActionRequest;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Gherkin\Node\TableNode;
-use Imbo\BehatApiExtension\Context\ApiContext;
+use DateTime;
 use PHPUnit\Framework\TestCase;
 
 class InsureConfirmedBookingsContext extends TestCase implements Context
@@ -37,7 +36,8 @@ class InsureConfirmedBookingsContext extends TestCase implements Context
     private ProcessActionUseCase $processActionUseCase;
 
     /** @BeforeScenario  */
-    public function before() {
+    public function before(): void
+    {
         $this->bookingsRepository = $this->createMock(BookingsRepositoryInterface::class);
         $this->bookingsRepository->method('save')->willReturnCallback(function (BookingDTOInterface $booking) {
             $this->bookings[$booking->getReference()] = $booking;
@@ -59,15 +59,18 @@ class InsureConfirmedBookingsContext extends TestCase implements Context
      */
     public function aBooking(TableNode $table): void
     {
+        /** @var array<array-key,string> $row */
         foreach ($table as $row) {
-            $status = match($row['status']) {
-                BookingStatusEnum::NotInsured->name => BookingStatusEnum::NotInsured,
+            $status = match ($row['status']) {
                 BookingStatusEnum::Insured->name => BookingStatusEnum::Insured,
                 BookingStatusEnum::Cancelled->name => BookingStatusEnum::Cancelled,
+                default => BookingStatusEnum::NotInsured
             };
 
-            $checkIn = \DateTime::createFromFormat(self::DATETIME_FORMAT, $row['checkIn']);
-            $checkOut = \DateTime::createFromFormat(self::DATETIME_FORMAT, $row['checkOut']);
+            /** @var DateTime $checkIn */
+            $checkIn = DateTime::createFromFormat(self::DATETIME_FORMAT, $row['checkIn']);
+            /** @var DateTime $checkOut */
+            $checkOut = DateTime::createFromFormat(self::DATETIME_FORMAT, $row['checkOut']);
 
             $booking = new Booking(
                 $row['reference'],
@@ -86,15 +89,17 @@ class InsureConfirmedBookingsContext extends TestCase implements Context
      */
     public function aConfirmationArrives(TableNode $table): void
     {
+        /** @var array<array-key,string> $row */
         foreach ($table as $row) {
+            /** @var DateTime $checkIn */
+            $checkIn = DateTime::createFromFormat(self::DATETIME_FORMAT, $row['checkIn']);
+            /** @var DateTime $checkOut */
+            $checkOut = DateTime::createFromFormat(self::DATETIME_FORMAT, $row['checkOut']);
 
-            $checkIn = \DateTime::createFromFormat(self::DATETIME_FORMAT, $row['checkIn']);
-            $checkOut = \DateTime::createFromFormat(self::DATETIME_FORMAT, $row['checkOut']);
-
-            $action = match($row['action']) {
-                ActionEnum::Confirmation->name => ActionEnum::Confirmation,
+            $action = match ($row['action']) {
                 ActionEnum::Modification->name => ActionEnum::Modification,
                 ActionEnum::Cancellation->name => ActionEnum::Cancellation,
+                default => ActionEnum::Confirmation
             };
 
             $this->actionRequest = new ActionRequest(
@@ -116,7 +121,7 @@ class InsureConfirmedBookingsContext extends TestCase implements Context
 
         try {
             $this->processActionUseCase->__invoke($this->actionRequest);
-        } catch (ErrorException|ValidationException $e) {
+        } catch (ErrorException | ValidationException $e) {
             $exception = $e;
         }
 

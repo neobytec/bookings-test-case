@@ -4,42 +4,81 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Data\Entity;
 
+use App\Domain\Bookings\Models\BookingStatusEnum;
+use App\Domain\Bookings\Ports\BookingDTOInterface;
 use DateTime;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Bookings
+ *
+ * @ORM\Table(
+ *     name="bookings", uniqueConstraints={@ORM\UniqueConstraint(name="reference_UNIQUE", columns={"reference"})}
+ * )
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Data\Repository\BookingsRepository")
  */
-class Bookings
+class Bookings implements BookingDTOInterface
 {
+    /**
+     * @ORM\Column(name="id", type="integer", nullable=false, options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
     private ?int $id = null;
 
-    /** @var string */
+    /**
+     * @ORM\Column(name="reference", type="string", length=6, nullable=false, options={"fixed"=true})
+     *
+     * @var string
+     */
     private $reference;
 
-    /** @var DateTime */
+    /**
+     * @ORM\Column(name="check_in", type="date", nullable=false)
+     *
+     * @var DateTime
+     */
     private $checkIn;
 
-    /** @var DateTime */
+    /**
+     * @ORM\Column(name="check_out", type="date", nullable=false)
+     *
+     * @var DateTime
+     */
     private $checkOut;
 
-    /** @var bool */
+    /**
+     * @ORM\Column(name="people", type="int", nullable=false)
+     *
+     * @var int
+     */
     private $people;
 
-    /** @var int */
+    /**
+     * @ORM\Column(name="status", type="int", nullable=false)
+     *
+     * @var int
+     */
     private $status;
 
-    /** @var DateTime|null */
+    /**
+     * @ORM\Column(name="modified_at", type="datetime", nullable=true)
+     *
+     * @var DateTime|null
+     */
     private $modifiedAt;
 
-    /** @var DateTime|null */
+    /**
+     * @ORM\Column(name="created_at", type="datetime", nullable=true, options={"default"="CURRENT_TIMESTAMP"})
+     *
+     * @var DateTime|null
+     */
     private $createdAt;
 
     /**
      * Get id.
-     *
-     * @return int
      */
-    public function getId(): int|null
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -59,10 +98,8 @@ class Bookings
 
     /**
      * Get reference.
-     *
-     * @return string
      */
-    public function getReference()
+    public function getReference(): string
     {
         return $this->reference;
     }
@@ -82,10 +119,8 @@ class Bookings
 
     /**
      * Get checkIn.
-     *
-     * @return DateTime
      */
-    public function getCheckIn()
+    public function getCheckIn(): DateTime
     {
         return $this->checkIn;
     }
@@ -105,10 +140,8 @@ class Bookings
 
     /**
      * Get checkOut.
-     *
-     * @return DateTime
      */
-    public function getCheckOut()
+    public function getCheckOut(): DateTime
     {
         return $this->checkOut;
     }
@@ -116,7 +149,7 @@ class Bookings
     /**
      * Set people.
      *
-     * @param bool $people
+     * @param int $people
      * @return Bookings
      */
     public function setPeople($people)
@@ -128,10 +161,8 @@ class Bookings
 
     /**
      * Get people.
-     *
-     * @return bool
      */
-    public function getPeople()
+    public function getPeople(): int
     {
         return $this->people;
     }
@@ -195,5 +226,15 @@ class Bookings
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    public function isInsured(): bool
+    {
+        return $this->status === BookingStatusEnum::Insured->value;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status === BookingStatusEnum::Cancelled->value;
     }
 }

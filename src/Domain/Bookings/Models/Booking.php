@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Bookings\Models;
 
 use App\Domain\Bookings\Ports\BookingDTOInterface;
-use App\Domain\Models\ActionEnum;
 use DateTime;
 
 class Booking implements BookingDTOInterface
