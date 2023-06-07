@@ -6,10 +6,10 @@ namespace App\Domain\Actions\Services;
 
 use App\Domain\Actions\Ports\ActionDTOInterface;
 use App\Domain\Actions\Ports\ActionsRepositoryInterface;
-use App\Domain\Actions\Ports\ProcessActionInterface;
+use App\Domain\Actions\Ports\ValidateActionInterface;
 use App\Domain\Exceptions\ValidationException;
 
-class ProcessActionService implements ProcessActionInterface
+class ValidateActionService implements ValidateActionInterface
 {
     public function __construct(
         private readonly ActionsRepositoryInterface $actionsRepository,

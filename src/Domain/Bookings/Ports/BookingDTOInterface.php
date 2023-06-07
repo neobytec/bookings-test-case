@@ -16,6 +16,8 @@ interface BookingDTOInterface
 
     public function getPeople(): int;
 
+    public function getPremiumAmount(): float;
+
     public function isInsured(): bool;
 
     public function isCancelled(): bool;

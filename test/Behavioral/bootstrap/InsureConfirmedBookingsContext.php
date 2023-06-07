@@ -7,11 +7,12 @@ namespace AppTest\Behavioral\bootstrap;
 use App\Application\Actions\UseCases\ProcessActionUseCase;
 use App\Domain\Actions\Models\ActionEnum;
 use App\Domain\Actions\Ports\ActionsRepositoryInterface;
-use App\Domain\Actions\Services\ProcessActionService;
+use App\Domain\Actions\Services\ValidateActionService;
 use App\Domain\Bookings\Models\Booking;
 use App\Domain\Bookings\Models\BookingStatusEnum;
 use App\Domain\Bookings\Ports\BookingDTOInterface;
 use App\Domain\Bookings\Ports\BookingsRepositoryInterface;
+use App\Domain\Bookings\Services\CancelBookingsService;
 use App\Domain\Bookings\Services\GetBookingService;
 use App\Domain\Exceptions\ErrorException;
 use App\Domain\Exceptions\ValidationException;
@@ -49,8 +50,12 @@ class InsureConfirmedBookingsContext extends TestCase implements Context
 
         $this->processActionUseCase = new ProcessActionUseCase(
             new GetBookingService($this->bookingsRepository),
-            new ProcessActionService($this->createMock(ActionsRepositoryInterface::class)),
-            new CreateInsuranceService($this->createMock(InsurancesRepositoryInterface::class))
+            new ValidateActionService($this->createMock(ActionsRepositoryInterface::class)),
+            new CreateInsuranceService(
+                $this->createMock(InsurancesRepositoryInterface::class),
+                $this->bookingsRepository
+            ),
+            new CancelBookingsService($this->bookingsRepository)
         );
     }
 

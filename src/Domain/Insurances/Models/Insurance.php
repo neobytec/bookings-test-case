@@ -10,8 +10,14 @@ class Insurance implements InsurancesDTOInterface
 {
     public function __construct(
         private readonly float $premiumAmount,
-        private readonly ?string $policy = null
+        private readonly ?string $policy = null,
+        private readonly ?string $reference = null,
     ) {
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
     }
 
     public function getPolicy(): ?string

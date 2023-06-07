@@ -76,6 +76,13 @@ class Bookings implements BookingDTOInterface
     private $createdAt;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Infrastructure\Data\Entity\Insurances", mappedBy="booking")
+     *
+     * @var Insurances|null
+     */
+    private $insurance;
+
+    /**
      * Get id.
      */
     public function getId(): ?int
@@ -236,5 +243,21 @@ class Bookings implements BookingDTOInterface
     public function isCancelled(): bool
     {
         return $this->status === BookingStatusEnum::Cancelled->value;
+    }
+
+    public function getInsurance(): ?Insurances
+    {
+        return $this->insurance;
+    }
+
+    public function setInsurance(?Insurances $insurance): self
+    {
+        $this->insurance = $insurance;
+        return $this;
+    }
+
+    public function getPremiumAmount(): float
+    {
+        return $this->insurance?->getPremiumAmount() ?? 0;
     }
 }

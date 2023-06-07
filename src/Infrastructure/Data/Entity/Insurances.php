@@ -139,8 +139,9 @@ class Insurances
         return $this->premiumAmount;
     }
 
-    public function setPremiumAmount(float $premiumAmount): void
+    public function setPremiumAmount(float $premiumAmount): self
     {
         $this->premiumAmount = $premiumAmount;
+        return $this;
     }
 }

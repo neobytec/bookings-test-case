@@ -15,6 +15,7 @@ class Booking implements BookingDTOInterface
         private readonly DateTime $checkOut,
         private readonly int $people,
         private readonly BookingStatusEnum $status,
+        private readonly float $premiumAmount = 0,
     ) {
     }
 
@@ -36,6 +37,11 @@ class Booking implements BookingDTOInterface
     public function getPeople(): int
     {
         return $this->people;
+    }
+
+    public function getPremiumAmount(): float
+    {
+        return $this->premiumAmount;
     }
 
     public function isInsured(): bool
