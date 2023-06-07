@@ -1,3 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="5.12.0@f90118cdeacd0088e7215e64c0c99ceca819e176">
+  <file src="src/Infrastructure/Data/Entity/Actions.php">
+    <MissingConstructor>
+      <code>$action</code>
+      <code>$checkIn</code>
+      <code>$checkOut</code>
+      <code>$createdAt</code>
+      <code>$people</code>
+    </MissingConstructor>
+    <PossiblyUnusedMethod>
+      <code>getAction</code>
+      <code>getBooking</code>
+      <code>getCheckIn</code>
+      <code>getCheckOut</code>
+      <code>getCreatedAt</code>
+      <code>getId</code>
+      <code>getPeople</code>
+      <code>setAction</code>
+      <code>setBooking</code>
+      <code>setCheckIn</code>
+      <code>setCheckOut</code>
+      <code>setCreatedAt</code>
+      <code>setPeople</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Infrastructure/Data/Entity/Bookings.php">
+    <MissingConstructor>
+      <code>$checkIn</code>
+      <code>$checkOut</code>
+      <code>$people</code>
+      <code>$reference</code>
+    </MissingConstructor>
+    <PossiblyUnusedMethod>
+      <code>getCheckIn</code>
+      <code>getCheckOut</code>
+      <code>getCreatedAt</code>
+      <code>getId</code>
+      <code>getModifiedAt</code>
+      <code>getPeople</code>
+      <code>getReference</code>
+      <code>setCheckIn</code>
+      <code>setCheckOut</code>
+      <code>setCreatedAt</code>
+      <code>setModifiedAt</code>
+      <code>setPeople</code>
+      <code>setReference</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Infrastructure/Data/Entity/Insurances.php">
+    <MissingConstructor>
+      <code>$createdAt</code>
+      <code>$policy</code>
+    </MissingConstructor>
+    <PossiblyUnusedMethod>
+      <code>getBooking</code>
+      <code>getCreatedAt</code>
+      <code>getId</code>
+      <code>getPolicy</code>
+      <code>setBooking</code>
+      <code>setCreatedAt</code>
+      <code>setPolicy</code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Infrastructure/Data/Migration/Version20230607152712.php">
+    <UnusedClass>
+      <code>Version20230607152712</code>
+    </UnusedClass>
+  </file>
 </files>
