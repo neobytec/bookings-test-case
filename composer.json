@@ -107,7 +107,6 @@
             "@cs-fix",
             "@cs-check",
             "@phpstan",
-            "@psalm",
             "@test",
             "@test-behavior"
         ]

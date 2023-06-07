@@ -26,6 +26,7 @@ final class Version20230607152712 extends AbstractMigration
               `check_in` DATE NOT NULL,
               `check_out` DATE NOT NULL,
               `people` TINYINT(1) NOT NULL,
+              `status` TINYINT(1) NOT NULL,
               `modified_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
               `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`),

@@ -25,6 +25,9 @@ class Bookings
     /** @var bool */
     private $people;
 
+    /** @var int */
+    private $status;
+
     /** @var DateTime|null */
     private $modifiedAt;
 
@@ -131,6 +134,21 @@ class Bookings
     public function getPeople()
     {
         return $this->people;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return Bookings
+     */
+    public function setStatus(int $status)
+    {
+        $this->status = $status;
+
+        return $this;
     }
 
     /**
