@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Models;
+namespace App\Domain\Actions\Models;
 
 enum ActionEnum: int
 {

@@ -7,4 +7,6 @@ namespace App\Domain\Bookings\Ports;
 interface BookingsRepositoryInterface
 {
     public function get(string $reference): ?BookingDTOInterface;
+
+    public function save(BookingDTOInterface $booking): bool;
 }

@@ -6,6 +6,7 @@ namespace App\Domain\Bookings\Models;
 
 enum BookingStatusEnum: int
 {
-    case Insured   = 1;
-    case Cancelled = 2;
+    case NotInsured = 1;
+    case Insured   = 2;
+    case Cancelled = 3;
 }

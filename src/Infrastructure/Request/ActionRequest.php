@@ -2,26 +2,31 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Bookings\Models;
+namespace App\Infrastructure\Request;
 
-use App\Domain\Bookings\Ports\BookingDTOInterface;
-use App\Domain\Models\ActionEnum;
+use App\Domain\Actions\Models\ActionEnum;
+use App\Domain\Actions\Ports\ActionDTOInterface;
 use DateTime;
 
-class Booking implements BookingDTOInterface
+class ActionRequest implements ActionDTOInterface
 {
     public function __construct(
         private readonly string $reference,
+        private readonly ActionEnum $action,
         private readonly DateTime $checkIn,
         private readonly DateTime $checkOut,
         private readonly int $people,
-        private readonly BookingStatusEnum $status,
-    ) {
-    }
+    ) {}
+
 
     public function getReference(): string
     {
         return $this->reference;
+    }
+
+    public function getAction(): ActionEnum
+    {
+        return $this->action;
     }
 
     public function getCheckIn(): DateTime
@@ -37,15 +42,5 @@ class Booking implements BookingDTOInterface
     public function getPeople(): int
     {
         return $this->people;
-    }
-
-    public function isInsured(): bool
-    {
-        return $this->status->value === BookingStatusEnum::Insured->value;
-    }
-
-    public function isCancelled(): bool
-    {
-        return $this->status->value === BookingStatusEnum::Cancelled->value;
     }
 }

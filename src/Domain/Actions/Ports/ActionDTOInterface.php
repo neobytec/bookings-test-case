@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Actions\Ports;
 
-use App\Domain\Models\ActionEnum;
+use App\Domain\Actions\Models\ActionEnum;
 use DateTime;
 
 interface ActionDTOInterface
