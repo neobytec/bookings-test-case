@@ -1,0 +1,26 @@
+default:
+  extensions:
+    Imbo\BehatApiExtension:
+      apiClient:
+        base_uri: http://localhost:8080
+        timeout: 5.0
+        verify: false
+  autoload:
+    '': '%paths.base%/test/Behavioral/bootstrap'
+  suites:
+    insure_confirmed_bookings:
+      paths: [ "%paths.base%/test/Behavioral/InsureConfirmedBookings.feature" ]
+      contexts:
+        - AppTest\Behavioral\bootstrap\InsureConfirmedBookingsContext
+    reinsure_bookings:
+      paths: [ "%paths.base%/test/Behavioral/ReinsureBookings.feature" ]
+      contexts:
+        - AppTest\Behavioral\bootstrap\ReinsureBookingsContext
+    report_cancelled_insured_bookings:
+      paths: [ "%paths.base%/test/Behavioral/GenerateReportCancelledInsuredBookings.feature" ]
+      contexts:
+        - AppTest\Behavioral\bootstrap\GenerateReportCancelledInsuredBookingsContext
+    invoice_insured_bookings:
+      paths: [ "%paths.base%/test/Behavioral/InvoiceInsuredBookings.feature" ]
+      contexts:
+        - AppTest\Behavioral\bootstrap\InvoiceInsuredBookingsContext

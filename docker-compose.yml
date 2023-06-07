@@ -1,0 +1,48 @@
+version: '3.7'
+
+services:
+  php:
+    container_name: php
+    image: bookings/php:development
+    working_dir: /var/www
+    command: php -S 0.0.0.0:8080 -t public
+    environment:
+      docker: "true"
+      PHP_IDE_CONFIG: serverName=bookings
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/var/www
+      - ./docker/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    networks:
+      - bridge
+
+  db:
+    container_name: db
+    image: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_volume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookings
+      MYSQL_USER: bookings
+      MYSQL_PASSWORD: bookings
+    mem_limit: 2048M
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 3s
+      timeout: 1s
+      retries: 5
+    networks:
+      - bridge
+
+volumes:
+  db_volume:
+
+networks:
+  bridge:
