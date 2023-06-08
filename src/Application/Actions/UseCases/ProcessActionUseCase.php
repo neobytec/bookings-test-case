@@ -12,6 +12,7 @@ use App\Domain\Bookings\Models\BookingStatusEnum;
 use App\Domain\Bookings\Ports\CancelBookingsInterface;
 use App\Domain\Bookings\Ports\GetBookingInterface;
 use App\Domain\Exceptions\ErrorException;
+use App\Domain\Exceptions\NotFoundException;
 use App\Domain\Exceptions\ValidationException;
 use App\Domain\Insurances\Ports\CreateInsuranceInterface;
 
@@ -30,11 +31,11 @@ class ProcessActionUseCase
         $booking = $this->getBooking->__invoke($action->getReference());
 
         if ($booking === null) {
-            throw ValidationException::create('The booking does not exists');
+            throw NotFoundException::create('The booking does not exists');
         }
 
-        if ($this->validateAction->__invoke($action)) {
-            throw ErrorException::create('The action cannot be processed');
+        if (! $this->validateAction->__invoke($action)) {
+            throw ValidationException::create('The action cannot be processed');
         }
 
         if ($action->getAction() === ActionEnum::Cancellation) {
@@ -42,17 +43,15 @@ class ProcessActionUseCase
             return;
         }
 
-        if ($action->getAction() === ActionEnum::Modification) {
-            $booking = new Booking(
-                $action->getReference(),
-                $action->getCheckIn(),
-                $action->getCheckOut(),
-                $action->getPeople(),
-                BookingStatusEnum::Insured
-            );
-        }
+        $booking = new Booking(
+            $action->getReference(),
+            $action->getCheckIn(),
+            $action->getCheckOut(),
+            $action->getPeople(),
+            BookingStatusEnum::Insured
+        );
 
-        if ($this->createInsurance->__invoke($booking)) {
+        if (! $this->createInsurance->__invoke($booking)) {
             throw ErrorException::create('The insurance cannot be created');
         }
     }

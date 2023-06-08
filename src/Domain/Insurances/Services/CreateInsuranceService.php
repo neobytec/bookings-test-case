@@ -28,6 +28,8 @@ class CreateInsuranceService implements CreateInsuranceInterface
         $days          = $booking->getCheckOut()->diff($booking->getCheckIn())->days;
         $premiumAmount = ($days * self::PRICE_PER_DAY) + ($booking->getPeople() * self::PRICE_PER_PERSON);
 
+        //@TODO call to insurance API
+
         $insurance = new Insurance($premiumAmount, reference: $booking->getReference());
         return $this->insurancesRepository->save($insurance);
     }

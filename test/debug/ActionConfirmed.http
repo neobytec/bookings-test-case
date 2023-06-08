@@ -1,0 +1,6 @@
+POST http://localhost:8080/actions
+Accept: application/json
+Content-Type: application/json
+Cookie: XDEBUG_SESSION=PHPSTORM
+
+{"reference": "123456","action":"confirmation","check_in":"2023-06-08","check_out":"2023-06-11","people":1}

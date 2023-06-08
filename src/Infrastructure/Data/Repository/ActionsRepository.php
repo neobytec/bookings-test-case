@@ -19,7 +19,8 @@ class ActionsRepository extends EntityRepository implements ActionsRepositoryInt
     public function save(ActionDTOInterface $action): bool
     {
         $actionEntity = new Actions();
-        $actionEntity->setCheckIn($action->getCheckIn())
+        $actionEntity->setAction($action->getAction()->value)
+            ->setCheckIn($action->getCheckIn())
             ->setCheckOut($action->getCheckOut())
             ->setPeople($action->getPeople())
             ->setCreatedAt(new DateTime())

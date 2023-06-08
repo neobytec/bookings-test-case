@@ -48,3 +48,34 @@ Here we have the High availability diagram.
 
 As you can see in this diagram we will use a cache layer for all the modules and an event bus to communicate between the 
 different modules. It makes sense if we see the different modules as microservices.
+
+## Use
+To start the environment you need to execute the following commands in order:
+
+`make build-container`
+
+This command builds the image for the container.
+
+`make start`
+
+This command start the containers
+
+`make composer-install`
+
+This command install all the dependencies
+
+`make migrations`
+
+This command runs the database migrations
+
+`make precommit`
+
+This command executes all the tests in the project. If this command fails run it again. 
+
+### Additional commands
+They are additional commands that help you during development. These are:
+- `make status` Show the status of the containers
+- `make stop` Stop all the containers
+- `make restart` Restart all the containers
+- `make remove` Remove the containers volumes and so on
+- `make login` Go inside the container of the application with the sh shell

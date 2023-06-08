@@ -7,6 +7,7 @@ namespace App\Infrastructure\Data\Entity;
 use App\Domain\Bookings\Models\BookingStatusEnum;
 use App\Domain\Bookings\Ports\BookingDTOInterface;
 use DateTime;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,14 +49,14 @@ class Bookings implements BookingDTOInterface
     private $checkOut;
 
     /**
-     * @ORM\Column(name="people", type="int", nullable=false)
+     * @ORM\Column(name="people", type="integer", nullable=false)
      *
      * @var int
      */
     private $people;
 
     /**
-     * @ORM\Column(name="status", type="int", nullable=false)
+     * @ORM\Column(name="status", type="integer", nullable=false)
      *
      * @var int
      */
@@ -76,9 +77,10 @@ class Bookings implements BookingDTOInterface
     private $createdAt;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Infrastructure\Data\Entity\Insurances", mappedBy="booking")
+     * @ORM\OneToMany(targetEntity="App\Infrastructure\Data\Entity\Insurances", mappedBy="booking")
+     * @ORM\OrderBy({"createdAt" = "DESC"})
      *
-     * @var Insurances|null
+     * @var Collection<Insurances>
      */
     private $insurance;
 
@@ -245,12 +247,12 @@ class Bookings implements BookingDTOInterface
         return $this->status === BookingStatusEnum::Cancelled->value;
     }
 
-    public function getInsurance(): ?Insurances
+    public function getInsurance(): Collection
     {
         return $this->insurance;
     }
 
-    public function setInsurance(?Insurances $insurance): self
+    public function setInsurance(Collection $insurance): self
     {
         $this->insurance = $insurance;
         return $this;
@@ -258,6 +260,9 @@ class Bookings implements BookingDTOInterface
 
     public function getPremiumAmount(): float
     {
-        return $this->insurance?->getPremiumAmount() ?? 0;
+        /** @var Insurances|null $insurance */
+        $insurance = $this->insurance[0];
+
+        return $insurance?->getPremiumAmount() ?? 0;
     }
 }

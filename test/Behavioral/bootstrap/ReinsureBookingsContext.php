@@ -48,13 +48,16 @@ class ReinsureBookingsContext extends TestCase implements Context
             return $this->bookings[$reference] ?? null;
         });
 
+        $actionsRepository = $this->createMock(ActionsRepositoryInterface::class);
+        $actionsRepository->method('save')->willReturn(true);
+
+        $insurancesRepository = $this->createMock(InsurancesRepositoryInterface::class);
+        $insurancesRepository->method('save')->willReturn(true);
+
         $this->processActionUseCase = new ProcessActionUseCase(
             new GetBookingService($this->bookingsRepository),
-            new ValidateActionService($this->createMock(ActionsRepositoryInterface::class)),
-            new CreateInsuranceService(
-                $this->createMock(InsurancesRepositoryInterface::class),
-                $this->bookingsRepository
-            ),
+            new ValidateActionService($actionsRepository),
+            new CreateInsuranceService($insurancesRepository, $this->bookingsRepository),
             new CancelBookingsService($this->bookingsRepository)
         );
     }

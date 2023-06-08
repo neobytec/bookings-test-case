@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  *     uniqueConstraints={@ORM\UniqueConstraint(name="policy_UNIQUE", columns={"policy"})},
  *     indexes={@ORM\Index(name="fk_insurances_1_idx", columns={"booking_id"})}
  * )
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Infrastructure\Data\Repository\InsurancesRepository")
  */
 class Insurances
 {

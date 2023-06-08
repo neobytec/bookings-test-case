@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Infrastructure\Handler\HomePageHandler;
-use App\Infrastructure\Handler\PingHandler;
+use App\Infrastructure\Handler\ActionHandler;
+use App\Infrastructure\Handler\ListCanceledBookingsHandler;
+use App\Infrastructure\Handler\ListInsuredBookingsHandler;
 use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
@@ -40,6 +41,7 @@ use Psr\Container\ContainerInterface;
  */
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
-    $app->get('/', HomePageHandler::class, 'home');
-    $app->get('/api/ping', PingHandler::class, 'api.ping');
+    $app->post('/actions', ActionHandler::class, 'action.process');
+    $app->get('/bookings/cancelled', ListCanceledBookingsHandler::class, 'bookings.cancelled');
+    $app->get('/bookings/insured', ListInsuredBookingsHandler::class, 'bookings.insured');
 };

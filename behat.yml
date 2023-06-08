@@ -24,3 +24,15 @@ default:
       paths: [ "%paths.base%/test/Behavioral/InvoiceInsuredBookings.feature" ]
       contexts:
         - AppTest\Behavioral\bootstrap\InvoiceInsuredBookingsContext
+    insure_confirmed_bookings_api:
+      paths: [ "%paths.base%/test/Behavioral/InsureConfirmedBookingsAPI.feature" ]
+      contexts:
+        - AppTest\Behavioral\bootstrap\InsureConfirmedBookingsAPIContext
+    report_cancelled_insured_bookings_api:
+      paths: [ "%paths.base%/test/Behavioral/GenerateReportCancelledInsuredBookingsAPI.feature" ]
+      contexts:
+        - AppTest\Behavioral\bootstrap\GenerateReportCancelledInsuredBookingsAPIContext
+    invoice_insured_bookings_api:
+      paths: [ "%paths.base%/test/Behavioral/InvoiceInsuredBookingsAPI.feature" ]
+      contexts:
+        - AppTest\Behavioral\bootstrap\InvoiceInsuredBookingsAPIContext

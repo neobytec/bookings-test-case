@@ -38,15 +38,15 @@ final class Version20230607152712 extends AbstractMigration
               `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
               `booking_id` INT UNSIGNED NOT NULL,
               `policy` CHAR(9) NOT NULL,
-              `premium_amount` DECIMAL(4,2) NOT NULL 0,
+              `premium_amount` DECIMAL(4,2) NOT NULL DEFAULT 0,
               `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
               PRIMARY KEY (`id`),
               UNIQUE INDEX `policy_UNIQUE` (`policy` ASC) VISIBLE,
               INDEX `fk_insurances_1_idx` (`booking_id` ASC) VISIBLE,
               CONSTRAINT `fk_insurances_1`
                 FOREIGN KEY (`booking_id`)
-                REFERENCES `bookings`.`bookings` (`id`)
-                ON DELETE NO ACTION
+                REFERENCES `bookings` (`id`)
+                ON DELETE CASCADE
                 ON UPDATE NO ACTION);
         ");
 
@@ -63,8 +63,8 @@ final class Version20230607152712 extends AbstractMigration
               INDEX `fk_actions_1_idx` (`booking_id` ASC) VISIBLE,
               CONSTRAINT `fk_actions_1`
                 FOREIGN KEY (`booking_id`)
-                REFERENCES `bookings`.`bookings` (`id`)
-                ON DELETE NO ACTION
+                REFERENCES `bookings` (`id`)
+                ON DELETE CASCADE
                 ON UPDATE NO ACTION);
         ");
     }

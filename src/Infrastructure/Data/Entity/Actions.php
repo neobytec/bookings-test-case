@@ -24,7 +24,7 @@ class Actions
     private ?int $id = null;
 
     /**
-     * @ORM\Column(name="action", type="int", nullable=false, unique=false)
+     * @ORM\Column(name="action", type="integer", nullable=false, unique=false)
      *
      * @var int
      */
@@ -45,7 +45,7 @@ class Actions
     private $checkOut;
 
     /**
-     * @ORM\Column(name="people", type="int", nullable=false, unique=false)
+     * @ORM\Column(name="people", type="integer", nullable=false, unique=false)
      *
      * @var int
      */

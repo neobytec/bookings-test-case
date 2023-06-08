@@ -49,16 +49,7 @@ build-container: ## Construye el contenedor de la aplicación
 	@docker build --no-cache --target development -t $(IMAGE_NAME):$(IMAGE_TAG_DEV) .
 
 composer-install: ## Instala las dependencias via composer
-	@docker run --rm -v ${PWD}/app:/app -w /app $(IMAGE_NAME):$(IMAGE_TAG_DEV) composer install --verbose
-
-composer-update: ## Actualiza las dependencias via composer
-	@docker run --rm -v ${PWD}/app:/app -w /app $(IMAGE_NAME):$(IMAGE_TAG_DEV) composer update --verbose
-
-composer-require: ## Añade nuevas dependencias de producción
-	@docker run --rm -ti -v ${PWD}/app:/app -w /app $(IMAGE_NAME):$(IMAGE_TAG_DEV) composer require --verbose
-
-composer-require-dev: ## Añade nuevas dependencias de desarrollo
-	@docker run --rm -ti -v ${PWD}/app:/app -w /app $(IMAGE_NAME):$(IMAGE_TAG_DEV) composer require --dev --verbose
+	@docker exec -it -u developer php composer install --verbose --no-interaction
 
 start:
 	@docker compose up -d
@@ -77,6 +68,9 @@ remove:
 
 login:
 	@docker exec -it -u developer php sh
+
+migrations:
+	@docker exec -it -u developer php ./bin/migrations migrations:migrate --no-interaction
 
 precommit:
 	@docker exec -it -u developer php composer precommit

@@ -10,6 +10,7 @@ use App\Domain\Bookings\Ports\BookingsRepositoryInterface;
 use App\Infrastructure\Data\Entity\Bookings;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Exception;
 
 /**
  * @template-extends EntityRepository<Bookings>
@@ -28,15 +29,29 @@ class BookingsRepository extends EntityRepository implements BookingsRepositoryI
             $bookingEntity = new Bookings();
         }
 
+        $status = 0;
+        if ($booking->isInsured()) {
+            $status = BookingStatusEnum::Insured->value;
+        }
+
+        if ($booking->isCancelled()) {
+            $status = BookingStatusEnum::Cancelled->value;
+        }
+
         $bookingEntity->setReference($booking->getReference())
             ->setCheckIn($booking->getCheckIn())
             ->setCheckOut($booking->getCheckOut())
             ->setPeople($booking->getPeople())
+            ->setStatus($status)
             ->setModifiedAt(new DateTime());
 
         $this->_em->persist($bookingEntity);
 
-        $this->_em->flush();
+        try {
+            $this->_em->flush();
+        } catch (Exception $e) {
+            return false;
+        }
 
         return true;
     }
@@ -65,5 +80,19 @@ class BookingsRepository extends EntityRepository implements BookingsRepositoryI
     public function getCancelled(): array
     {
         return $this->findBy(['status' => BookingStatusEnum::Cancelled->value]);
+    }
+
+    public function remove(string $reference): bool
+    {
+        $bookingEntity = $this->findOneBy(['reference' => $reference]);
+        if (! $bookingEntity) {
+            return false;
+        }
+
+        $this->_em->remove($bookingEntity);
+
+        $this->_em->flush();
+
+        return true;
     }
 }

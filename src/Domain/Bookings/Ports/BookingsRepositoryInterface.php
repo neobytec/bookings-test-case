@@ -15,4 +15,6 @@ interface BookingsRepositoryInterface
     public function getInsured(): array;
 
     public function getCancelled(): array;
+
+    public function remove(string $reference): bool;
 }

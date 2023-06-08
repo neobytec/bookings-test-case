@@ -1,0 +1,4 @@
+GET http://localhost:8080/bookings/insured
+Accept: application/json
+Content-Type: application/json
+Cookie: XDEBUG_SESSION=PHPSTORM
